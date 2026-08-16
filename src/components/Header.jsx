@@ -180,34 +180,36 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
             </>
           );
 
-          return isAuthPage ? (
-            <div
-              className="header-brand-link"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                textDecoration: "none",
-                minWidth: 0,
-                overflow: "hidden",
-                cursor: "default",
-              }}
-            >
-              {brandContent}
-            </div>
-          ) : (
-            <Link
-              to="/"
-              className="header-brand-link"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                textDecoration: "none",
-                minWidth: 0,
-                overflow: "hidden",
-              }}
-            >
+          const brandStyle = {
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            textDecoration: "none",
+            minWidth: 0,
+            overflow: "hidden",
+          };
+
+          // أثناء تسجيل الدخول - بدون لينك
+          if (isAuthPage) {
+            return (
+              <div className="header-brand-link" style={{ ...brandStyle, cursor: "default" }}>
+                {brandContent}
+              </div>
+            );
+          }
+
+          // مسجّل دخول - يروح للداشبورد
+          if (currentUser) {
+            return (
+              <Link to="/dashboard" className="header-brand-link" style={brandStyle}>
+                {brandContent}
+              </Link>
+            );
+          }
+
+          // مش مسجّل دخول - يروح للصفحة الرئيسية
+          return (
+            <Link to="/" className="header-brand-link" style={brandStyle}>
               {brandContent}
             </Link>
           );
