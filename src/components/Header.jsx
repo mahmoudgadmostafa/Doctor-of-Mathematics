@@ -161,31 +161,57 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
           </button>
         )}
 
-        <Link
-          to="/"
-          className="header-brand-link"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            textDecoration: "none",
-            minWidth: 0,
-            overflow: "hidden",
-          }}
-        >
-          <img
-            src="/logo-circle.png"
-            alt="Math Teacher Logo"
-            className="logo-animated"
-            style={{ height: "36px", width: "36px", objectFit: "cover", borderRadius: "50%", flexShrink: 0 }}
-          />
-          <h1
-            className="header-title-animated header-title-responsive"
-            style={{ fontSize: "1rem", margin: 0 }}
-          >
-            منصة <span className="brand-highlight">الدكتور</span> فى الرياضيات
-          </h1>
-        </Link>
+        {(() => {
+          const isAuthPage = ["/login", "/register", "/register-teacher"].includes(location.pathname);
+          const brandContent = (
+            <>
+              <img
+                src="/logo-circle.png"
+                alt="Math Teacher Logo"
+                className="logo-animated"
+                style={{ height: "36px", width: "36px", objectFit: "cover", borderRadius: "50%", flexShrink: 0 }}
+              />
+              <h1
+                className="header-title-animated header-title-responsive"
+                style={{ fontSize: "1rem", margin: 0 }}
+              >
+                منصة <span className="brand-highlight">الدكتور</span> فى الرياضيات
+              </h1>
+            </>
+          );
+
+          return isAuthPage ? (
+            <div
+              className="header-brand-link"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                textDecoration: "none",
+                minWidth: 0,
+                overflow: "hidden",
+                cursor: "default",
+              }}
+            >
+              {brandContent}
+            </div>
+          ) : (
+            <Link
+              to="/"
+              className="header-brand-link"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                textDecoration: "none",
+                minWidth: 0,
+                overflow: "hidden",
+              }}
+            >
+              {brandContent}
+            </Link>
+          );
+        })()}
       </div>
 
       {/* Center: Centered User / Student Name */}
