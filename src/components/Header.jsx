@@ -20,13 +20,15 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
   const studentEmail = (userProfile?.email || "").trim().toLowerCase();
   const studentPhone = (userProfile?.phone || "").trim();
 
-  // Clear badge when visiting the respective route
+  // Clear badge when visiting the respective route or dashboard tab
   useEffect(() => {
-    if (location.pathname === "/notifications") {
+    const isNotifActive = location.pathname === "/notifications" || (location.pathname === "/dashboard" && location.search.includes("tab=notifications"));
+    if (isNotifActive) {
       localStorage.setItem("math_app_last_seen_notif", Date.now().toString());
       setNotifCount(0);
     }
-    if (location.pathname === "/support-tickets") {
+    const isSupportActive = location.pathname === "/support-tickets" || (location.pathname === "/dashboard" && location.search.includes("tab=support"));
+    if (isSupportActive) {
       if (isTeacher) {
         localStorage.setItem("math_app_teacher_last_seen_tickets", Date.now().toString());
       } else {
@@ -34,7 +36,7 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
       }
       setSupportCount(0);
     }
-  }, [location.pathname, isTeacher]);
+  }, [location.pathname, location.search, isTeacher]);
 
   // Listen to notifications count
   useEffect(() => {
@@ -70,12 +72,13 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
         return false;
       });
 
-      if (location.pathname !== "/notifications") {
+      const isNotifActive = location.pathname === "/notifications" || (location.pathname === "/dashboard" && location.search.includes("tab=notifications"));
+      if (!isNotifActive) {
         setNotifCount(unreadList.length);
       }
     });
     return () => unsub();
-  }, [currentUser, isTeacher, studentGrade, studentGroup, studentUid, studentEmail, studentPhone, location.pathname]);
+  }, [currentUser, isTeacher, studentGrade, studentGroup, studentUid, studentEmail, studentPhone, location.pathname, location.search]);
 
   // Listen to support tickets count
   useEffect(() => {
@@ -90,7 +93,8 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
           const ticketTime = t.createdAt?.toDate ? t.createdAt.toDate().getTime() : new Date(t.createdAt || 0).getTime();
           return ticketTime > lastSeen;
         });
-        if (location.pathname !== "/support-tickets") {
+        const isSupportActive = location.pathname === "/support-tickets" || (location.pathname === "/dashboard" && location.search.includes("tab=support"));
+        if (!isSupportActive) {
           setSupportCount(pendingUnread.length);
         }
       } else {
@@ -106,13 +110,14 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
           const replyTime = t.repliedAt?.toDate ? t.repliedAt.toDate().getTime() : new Date(t.repliedAt || Date.now()).getTime();
           return replyTime > lastSeen;
         });
-        if (location.pathname !== "/support-tickets") {
+        const isSupportActive = location.pathname === "/support-tickets" || (location.pathname === "/dashboard" && location.search.includes("tab=support"));
+        if (!isSupportActive) {
           setSupportCount(myRepliedUnread.length);
         }
       }
     });
     return () => unsub();
-  }, [currentUser, isTeacher, studentUid, studentEmail, studentPhone, location.pathname]);
+  }, [currentUser, isTeacher, studentUid, studentEmail, studentPhone, location.pathname, location.search]);
 
   const handleLogout = async () => {
     try {
@@ -266,7 +271,7 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
           <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
             {/* 🔔 Notifications Icon Only */}
             <Link
-              to="/notifications"
+              to={isTeacher ? "/notifications" : "/dashboard?tab=notifications"}
               className="button button-sm button-muted header-icon-btn"
               style={{
                 fontSize: "1rem",
@@ -310,7 +315,7 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
 
             {/* 🧑‍💻 Support Icon Only (الدعم) */}
             <Link
-              to="/support-tickets"
+              to={isTeacher ? "/support-tickets" : "/dashboard?tab=support"}
               className="button button-sm button-muted header-icon-btn"
               style={{
                 fontSize: "1rem",
