@@ -203,10 +203,11 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
             );
           }
 
-          // مسجّل دخول - يروح للداشبورد
+          // مسجّل دخول - يروح للداشبورد (للطالب يرجع لتبويب الرئيسية)
           if (currentUser) {
+            const targetDashboard = isTeacher ? "/dashboard" : "/dashboard?tab=home";
             return (
-              <Link to="/dashboard" className="header-brand-link" style={brandStyle}>
+              <Link to={targetDashboard} className="header-brand-link" style={brandStyle}>
                 {brandContent}
               </Link>
             );
