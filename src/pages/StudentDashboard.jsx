@@ -231,10 +231,12 @@ export default function StudentDashboard() {
   const urlTab = searchParams.get("tab");
   const [activeMainTab, setActiveMainTab] = useState(urlTab || "home");
 
-  // Sync state if URL search param changes (e.g. from header icon clicks)
+  // Sync state if URL search param changes (e.g. from header brand click or icon clicks)
   useEffect(() => {
     if (urlTab && ["home", "live", "library", "quizzes", "notifications", "support", "profile"].includes(urlTab)) {
       setActiveMainTab(urlTab);
+    } else if (!urlTab) {
+      setActiveMainTab("home");
     }
   }, [urlTab]);
 
