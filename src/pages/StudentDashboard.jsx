@@ -1,5 +1,6 @@
 // src/pages/StudentDashboard.jsx
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getSubscriptionInfo, hasActiveSubscription } from "../components/StudentCard";
 import { db } from "../firebase";
@@ -226,7 +227,27 @@ export default function StudentDashboard() {
   const isSubscriberActive = hasActiveSubscription(userProfile);
 
   const [now, setNow] = useState(new Date());
-  const [activeMainTab, setActiveMainTab] = useState("home");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlTab = searchParams.get("tab");
+  const [activeMainTab, setActiveMainTab] = useState(urlTab || "home");
+
+  // Sync state if URL search param changes (e.g. from header icon clicks)
+  useEffect(() => {
+    if (urlTab && ["home", "live", "library", "quizzes", "notifications", "support", "profile"].includes(urlTab)) {
+      setActiveMainTab(urlTab);
+    }
+  }, [urlTab]);
+
+  const handleSelectTab = (tabId) => {
+    setActiveMainTab(tabId);
+    setSearchParams({ tab: tabId }, { replace: true });
+    if (tabId === "notifications") {
+      localStorage.setItem("math_app_last_seen_notif", Date.now().toString());
+    }
+    if (tabId === "support") {
+      localStorage.setItem("math_app_student_last_seen_replies", Date.now().toString());
+    }
+  };
 
   const [liveSessions, setLiveSessions] = useState([]);
   const [libraryItems, setLibraryItems] = useState([]);
@@ -442,7 +463,7 @@ export default function StudentDashboard() {
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActiveMainTab(item.id)}
+                  onClick={() => handleSelectTab(item.id)}
                   className={`sidebar-tab-btn ${isActive ? "active" : ""}`}
                 >
                   <span style={{ fontSize: "1.3rem" }}>{item.icon}</span>
