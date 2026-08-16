@@ -20,19 +20,19 @@ import TeacherNotifications from "./pages/TeacherNotifications";
 import SupportTickets from "./pages/SupportTickets";
 import { useAuth } from "./context/AuthContext";
 
-// Teacher: full dedicated page. Student: redirect to dashboard (sidebar handles tabs)
+// Teacher: full dedicated page. Student: redirect to dashboard tab
 function NotificationsRoute() {
   const { isTeacher } = useAuth();
   return isTeacher
     ? <TeacherNotifications />
-    : <Navigate to="/dashboard" replace />;
+    : <Navigate to="/dashboard?tab=notifications" replace />;
 }
 
 function SupportRoute() {
   const { isTeacher } = useAuth();
   return isTeacher
     ? <SupportTickets />
-    : <Navigate to="/dashboard" replace />;
+    : <Navigate to="/dashboard?tab=support" replace />;
 }
 
 export default function App() {
