@@ -272,6 +272,90 @@ export default function SupportTickets({ defaultTab = "support" }) {
         <StudentNotifications />
       ) : (
         <>
+          {/* Direct channels prompt for students / urgent inquiries */}
+          {!isTeacher && (
+            <div
+              className="glass"
+              style={{
+                margin: "1rem 0",
+                padding: "1rem 1.25rem",
+                borderRadius: "var(--radius-md)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: "1rem",
+                borderRight: "4px solid var(--color-primary)",
+                background: "linear-gradient(90deg, rgba(2, 132, 199, 0.08) 0%, rgba(37, 211, 102, 0.05) 100%)",
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "var(--color-text-primary)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span>💬 هل لديك استفسار عاجل؟</span>
+                  <span style={{ fontSize: "0.75rem", background: "rgba(34, 197, 94, 0.15)", color: "#16a34a", padding: "2px 8px", borderRadius: "12px", fontWeight: 700 }}>
+                    متاح الآن
+                  </span>
+                </div>
+                <p style={{ fontSize: "0.82rem", color: "var(--color-muted)", margin: "0.25rem 0 0 0" }}>
+                  يمكنك التواصل المباشر مع مدير المنصة (د. محمود جاد) عبر واتساب أو ماسنجر أو فيسبوك للرد الفوري.
+                </p>
+              </div>
+
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                <a
+                  href="https://wa.me/201060607654"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                  style={{
+                    background: "linear-gradient(135deg, #25d366, #128c7e)",
+                    color: "#fff",
+                    fontSize: "0.8rem",
+                    padding: "0.45rem 0.9rem",
+                    borderRadius: "10px",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  واتساب 💬
+                </a>
+                <a
+                  href="https://m.me/dr.mathee"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                  style={{
+                    background: "linear-gradient(135deg, #a855f7, #0084ff)",
+                    color: "#fff",
+                    fontSize: "0.8rem",
+                    padding: "0.45rem 0.9rem",
+                    borderRadius: "10px",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  ماسنجر ⚡
+                </a>
+                <a
+                  href="https://web.facebook.com/dr.mathee/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                  style={{
+                    background: "linear-gradient(135deg, #1877f2, #0c56c2)",
+                    color: "#fff",
+                    fontSize: "0.8rem",
+                    padding: "0.45rem 0.9rem",
+                    borderRadius: "10px",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  فيسبوك 🌐
+                </a>
+              </div>
+            </div>
+          )}
 
       {/* Controls and Search Bar */}
       <div
