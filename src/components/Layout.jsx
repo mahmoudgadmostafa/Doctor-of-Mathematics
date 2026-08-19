@@ -1,8 +1,8 @@
-// src/components/Layout.jsx
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import TeacherSidebar from "./TeacherSidebar";
+import FloatingContactWidget from "./FloatingContactWidget";
 import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
 
@@ -67,6 +67,7 @@ export default function Layout({ children }) {
           </main>
         )}
       </div>
+      <FloatingContactWidget />
       <Footer />
     </>
   );
